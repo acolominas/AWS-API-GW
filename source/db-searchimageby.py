@@ -12,9 +12,13 @@ def lambda_handler(event, context):
     key= event['pathParameters']['key']
     value= event['pathParameters']['value']
     data = "";
-    if key == "title" or key == "author":
-        data = table.scan(
+    if key == "title" or key == "author" || key == "keywords":
+            data = table.scan(
             FilterExpression=Attr(key).contains(value)
+        )
+    elif key == "creationdate":
+        data = table.scan(
+            FilterExpression=Attr("storage_date").contains(value)
         )
     elif key == "id":
         data = table.scan(
