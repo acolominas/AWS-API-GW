@@ -9,11 +9,17 @@ table_name = os.environ['TABLE_NAME']
 
 def lambda_handler(event, context):
     table = dynamodb.Table(table_name)
-    title = event['pathParameters']['title']
-
-    data = table.scan(
-      FilterExpression=Attr('title').eq(title)
-    )
+    key= event['pathParameters']['key']
+    value= event['pathParameters']['value']
+    data = "";
+    if key == "title" or key == "author":
+        data = table.scan(
+            FilterExpression=Attr(key).contains(value)
+        )
+    elif key == "id":
+        data = table.scan(
+            FilterExpression=Attr(key).eq(value)
+        )
 
     response = {
       'statusCode': 200,

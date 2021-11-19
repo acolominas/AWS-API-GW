@@ -42,34 +42,10 @@ resource "aws_lambda_permission" "allow-api-lambda-list" {
   source_arn    = "${aws_api_gateway_rest_api.image-manager-api-gw.execution_arn}/*"
 }
 
-resource "aws_lambda_permission" "allow-api-lambda-search-id" {
+resource "aws_lambda_permission" "allow-api-lambda-search" {
   statement_id  = "AllowExecutionFromAPIGateway"
   action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.lambda-db-searchimagebyid.function_name
-  principal     = "apigateway.amazonaws.com"
-  source_arn    = "${aws_api_gateway_rest_api.image-manager-api-gw.execution_arn}/*"
-}
-
-resource "aws_lambda_permission" "allow-api-lambda-search-title" {
-  statement_id  = "AllowExecutionFromAPIGateway"
-  action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.lambda-db-searchimagebytitle.function_name
-  principal     = "apigateway.amazonaws.com"
-  source_arn    = "${aws_api_gateway_rest_api.image-manager-api-gw.execution_arn}/*"
-}
-
-resource "aws_lambda_permission" "allow-api-lambda-search-author" {
-  statement_id  = "AllowExecutionFromAPIGateway"
-  action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.lambda-db-searchimagebyauthor.function_name
-  principal     = "apigateway.amazonaws.com"
-  source_arn    = "${aws_api_gateway_rest_api.image-manager-api-gw.execution_arn}/*"
-}
-
-resource "aws_lambda_permission" "allow-api-lambda-search-creadate" {
-  statement_id  = "AllowExecutionFromAPIGateway"
-  action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.lambda-db-searchimagebycreadate.function_name
+  function_name = aws_lambda_function.lambda-db-searchimageby.function_name
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_api_gateway_rest_api.image-manager-api-gw.execution_arn}/*"
 }
