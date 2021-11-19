@@ -12,7 +12,7 @@ def lambda_handler(event, context):
     key= event['pathParameters']['key']
     value= event['pathParameters']['value']
     data = "";
-    if key == "title" or key == "author" || key == "keywords":
+    if key == "title" or key == "author" or key == "keywords":
             data = table.scan(
             FilterExpression=Attr(key).contains(value)
         )

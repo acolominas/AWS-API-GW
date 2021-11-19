@@ -30,7 +30,7 @@ data "archive_file" "lambda-login" {
 
 resource "aws_lambda_function" "lambda-db-createimage" {
   function_name = "lambda-db-createimage"
-  description   = "A function to lookup and return user data from AWS Secrets Manager."
+  description   = "A function to insert new image to Database"
   handler       = "db-createimage.lambda_handler"
   runtime       = "python3.9"
 
@@ -46,7 +46,7 @@ resource "aws_lambda_function" "lambda-db-createimage" {
 
 resource "aws_lambda_function" "lambda-db-listimages" {
   function_name = "lambda-db-listimages"
-  description   = "A function to lookup and return user data from AWS Secrets Manager."
+  description   = "A function to retrieve all images from Database"
   handler       = "db-listimages.lambda_handler"
   runtime       = "python3.9"
 
@@ -62,7 +62,7 @@ resource "aws_lambda_function" "lambda-db-listimages" {
 
 resource "aws_lambda_function" "lambda-db-searchimageby" {
   function_name = "lambda-db-searchimageby"
-  description   = "A function to lookup and return user data from AWS Secrets Manager."
+  description   = "A function to retrieve images"
   handler       = "db-searchimageby.lambda_handler"
   runtime       = "python3.9"
 
@@ -78,7 +78,7 @@ resource "aws_lambda_function" "lambda-db-searchimageby" {
 
 resource "aws_lambda_function" "lambda-db-createuser" {
   function_name = "lambda-db-createuser"
-  description   = "A function to lookup and return user data from AWS Secrets Manager."
+  description   = "A function to insert a new user to Database"
   handler       = "db-createuser.lambda_handler"
   runtime       = "python3.9"
 
@@ -94,7 +94,7 @@ resource "aws_lambda_function" "lambda-db-createuser" {
 
 resource "aws_lambda_function" "lambda-db-login" {
   function_name = "lambda-db-login"
-  description   = "A function to lookup and return user data from AWS Secrets Manager."
+  description   = "A function to check the user and password"
   handler       = "db-login.lambda_handler"
   runtime       = "python3.9"
 
