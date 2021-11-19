@@ -31,7 +31,10 @@ resource "aws_iam_policy" "lambda-policy" {
             "Action": [
                 "dynamodb:*"
             ],
-            "Resource": "arn:aws:dynamodb:eu-west-1:004914726163:table/images",
+            "Resource": [
+                "${aws_dynamodb_table.users-table.arn}",
+                "${aws_dynamodb_table.images-table.arn}"
+            ],
             "Effect": "Allow"
         },
         {

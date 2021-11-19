@@ -39,7 +39,7 @@ resource "aws_lambda_function" "lambda-db-createimage" {
 
   environment {
     variables = {
-      TABLE_NAME = "images"
+      TABLE_NAME = aws_dynamodb_table.images-table.name
     }
   }
 }
@@ -55,14 +55,14 @@ resource "aws_lambda_function" "lambda-db-listimages" {
 
   environment {
     variables = {
-      TABLE_NAME = "images"
+      TABLE_NAME = aws_dynamodb_table.images-table.name
     }
   }
 }
 
 resource "aws_lambda_function" "lambda-db-searchimageby" {
   function_name = "lambda-db-searchimageby"
-  description   = "A function to retrieve images"
+  description   = "A function to retrieve images using key/value"
   handler       = "db-searchimageby.lambda_handler"
   runtime       = "python3.9"
 
@@ -71,7 +71,7 @@ resource "aws_lambda_function" "lambda-db-searchimageby" {
 
   environment {
     variables = {
-      TABLE_NAME = "images"
+      TABLE_NAME = aws_dynamodb_table.images-table.name
     }
   }
 }
@@ -87,14 +87,14 @@ resource "aws_lambda_function" "lambda-db-createuser" {
 
   environment {
     variables = {
-      TABLE_NAME = "users"
+      TABLE_NAME = aws_dynamodb_table.users-table.name
     }
   }
 }
 
 resource "aws_lambda_function" "lambda-db-login" {
   function_name = "lambda-db-login"
-  description   = "A function to check the user and password"
+  description   = "A function to check user and password"
   handler       = "db-login.lambda_handler"
   runtime       = "python3.9"
 
@@ -103,7 +103,7 @@ resource "aws_lambda_function" "lambda-db-login" {
 
   environment {
     variables = {
-      TABLE_NAME = "users"
+      TABLE_NAME = aws_dynamodb_table.users-table.name
     }
   }
 }

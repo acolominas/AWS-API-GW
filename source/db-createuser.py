@@ -10,7 +10,6 @@ dynamodb = boto3.resource('dynamodb')
 
 def lambda_handler(event, context):
     user = event['user']
-    print(image)
     table_name = os.environ['TABLE_NAME']
     table = dynamodb.Table(table_name)
 

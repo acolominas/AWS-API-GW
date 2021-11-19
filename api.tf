@@ -49,3 +49,11 @@ resource "aws_lambda_permission" "allow-api-lambda-search" {
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_api_gateway_rest_api.image-manager-api-gw.execution_arn}/*"
 }
+
+resource "aws_lambda_permission" "allow-api-lambda-createuser" {
+  statement_id  = "AllowExecutionFromAPIGateway"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.lambda-db-createuser.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_api_gateway_rest_api.image-manager-api-gw.execution_arn}/*"
+}

@@ -11,7 +11,7 @@ resource "aws_dynamodb_table" "images-table" {
   }
 }
 
-resource "aws_dynamodb_table" "user-tables" {
+resource "aws_dynamodb_table" "users-table" {
   name           = "users"
   billing_mode   = "PROVISIONED"
   read_capacity  = 5
