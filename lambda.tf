@@ -1,7 +1,19 @@
-data "archive_file" "lambda-createimage" {
+data "archive_file" "lambda-registerimage" {
   type        = "zip"
-  source_file = "${path.module}/source/db-createimage.py"
-  output_path = "${path.module}/files/db-createimage.zip"
+  source_file = "${path.module}/source/db-registerimage.py"
+  output_path = "${path.module}/files/db-registerimage.zip"
+}
+
+data "archive_file" "lambda-modifyimage" {
+  type        = "zip"
+  source_file = "${path.module}/source/db-modifyimage.py"
+  output_path = "${path.module}/files/db-modifyimage.zip"
+}
+
+data "archive_file" "lambda-deleteimage" {
+  type        = "zip"
+  source_file = "${path.module}/source/db-deleteimage.py"
+  output_path = "${path.module}/files/db-deleteimage.zip"
 }
 
 data "archive_file" "lambda-listimages" {
@@ -28,14 +40,46 @@ data "archive_file" "lambda-login" {
   output_path = "${path.module}/files/db-login.zip"
 }
 
-resource "aws_lambda_function" "lambda-db-createimage" {
-  function_name = "lambda-db-createimage"
+resource "aws_lambda_function" "lambda-db-registerimage" {
+  function_name = "lambda-db-registerimage"
   description   = "A function to insert new image to Database"
-  handler       = "db-createimage.lambda_handler"
+  handler       = "db-registerimage.lambda_handler"
   runtime       = "python3.9"
 
-  filename = "${path.module}/files/db-createimage.zip"
-  role     = aws_iam_role.lambda-user-role.arn
+  filename = "${path.module}/files/db-registerimage.zip"
+  role     = aws_iam_role.lambda-image-role.arn
+
+  environment {
+    variables = {
+      TABLE_NAME = aws_dynamodb_table.images-table.name
+    }
+  }
+}
+
+resource "aws_lambda_function" "lambda-db-modifyimage" {
+  function_name = "lambda-db-modifyimage"
+  description   = "A function to modify an existing image in Database"
+  handler       = "db-modifyimage.lambda_handler"
+  runtime       = "python3.9"
+
+  filename = "${path.module}/files/db-modifyimage.zip"
+  role     = aws_iam_role.lambda-image-role.arn
+
+  environment {
+    variables = {
+      TABLE_NAME = aws_dynamodb_table.images-table.name
+    }
+  }
+}
+
+resource "aws_lambda_function" "lambda-db-deleteimage" {
+  function_name = "lambda-db-deleteimage"
+  description   = "A function to delete an existing image in Database"
+  handler       = "db-deleteimage.lambda_handler"
+  runtime       = "python3.9"
+
+  filename = "${path.module}/files/db-deleteimage.zip"
+  role     = aws_iam_role.lambda-image-role.arn
 
   environment {
     variables = {
@@ -51,7 +95,7 @@ resource "aws_lambda_function" "lambda-db-listimages" {
   runtime       = "python3.9"
 
   filename = "${path.module}/files/db-listimages.zip"
-  role     = aws_iam_role.lambda-user-role.arn
+  role     = aws_iam_role.lambda-image-role.arn
 
   environment {
     variables = {
@@ -67,7 +111,7 @@ resource "aws_lambda_function" "lambda-db-searchimageby" {
   runtime       = "python3.9"
 
   filename = "${path.module}/files/db-searchimageby.zip"
-  role     = aws_iam_role.lambda-user-role.arn
+  role     = aws_iam_role.lambda-image-role.arn
 
   environment {
     variables = {
@@ -83,7 +127,7 @@ resource "aws_lambda_function" "lambda-db-createuser" {
   runtime       = "python3.9"
 
   filename = "${path.module}/files/db-createuser.zip"
-  role     = aws_iam_role.lambda-user-role.arn
+  role     = aws_iam_role.lambda-image-role.arn
 
   environment {
     variables = {
@@ -99,7 +143,7 @@ resource "aws_lambda_function" "lambda-db-login" {
   runtime       = "python3.9"
 
   filename = "${path.module}/files/db-login.zip"
-  role     = aws_iam_role.lambda-user-role.arn
+  role     = aws_iam_role.lambda-image-role.arn
 
   environment {
     variables = {

@@ -1,5 +1,5 @@
-resource "aws_iam_role" "lambda-user-role" {
-  name = "iam_for_lambda"
+resource "aws_iam_role" "lambda-image-role" {
+  name = "lambda-image-role"
 
   assume_role_policy = <<EOF
 {
@@ -18,8 +18,8 @@ resource "aws_iam_role" "lambda-user-role" {
 EOF
 }
 
-resource "aws_iam_policy" "lambda-policy" {
-  name        = "transfer-lambda-user-policy"
+resource "aws_iam_policy" "lambda-image-policy" {
+  name        = "lambda-image-policy"
   path        = "/"
   description = "Lambda Policy"
 
@@ -45,6 +45,15 @@ resource "aws_iam_policy" "lambda-policy" {
                 "logs:PutLogEvents"
             ],
             "Resource": "*"
+        },
+        {
+        "Effect" : "Allow",
+            "Action" : [
+                "kms:Decrypt"
+                ],
+            "Resource" : [
+              "*"
+              ]
         }
     ]
 }
@@ -53,8 +62,8 @@ EOF
 
 resource "aws_iam_policy_attachment" "lambda-attach-1" {
   name       = "test-attachment-1"
-  roles      = [aws_iam_role.lambda-user-role.name]
-  policy_arn = aws_iam_policy.lambda-policy.arn
+  roles      = [aws_iam_role.lambda-image-role.name]
+  policy_arn = aws_iam_policy.lambda-image-policy.arn
 }
 
 resource "aws_iam_role" "api-gw-logging-role" {
@@ -97,53 +106,6 @@ resource "aws_iam_role_policy" "api-gw-logging-policy" {
                 "logs:FilterLogEvents"
             ],
             "Resource": "*"
-        }
-    ]
-}
-EOF
-}
-
-resource "aws_iam_role" "image-manager-api-role" {
-  name = "image-manager-api-role"
-
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Sid": "",
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "transfer.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
-EOF
-}
-
-resource "aws_iam_role_policy" "image-manager-api-policy" {
-  name = "image-manager-api-policy"
-  role = aws_iam_role.image-manager-api-role.id
-
-  policy = <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-          "Action": [
-            "execute-api:Invoke"
-          ],
-          "Resource": "${aws_api_gateway_rest_api.image-manager-api-gw.execution_arn}/prod/GET/*",
-          "Effect": "Allow"
-        },
-        {
-          "Action": [
-            "apigateway:GET"
-          ],
-          "Resource": "*",
-          "Effect": "Allow"
         }
     ]
 }

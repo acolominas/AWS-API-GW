@@ -57,3 +57,26 @@ resource "aws_lambda_permission" "allow-api-lambda-createuser" {
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_api_gateway_rest_api.image-manager-api-gw.execution_arn}/*"
 }
+
+resource "aws_lambda_permission" "allow-api-lambda-registerimage" {
+  statement_id  = "AllowExecutionFromAPIGateway"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.lambda-db-registerimage.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_api_gateway_rest_api.image-manager-api-gw.execution_arn}/*"
+}
+
+resource "aws_lambda_permission" "allow-api-lambda-modifyimage" {
+  statement_id  = "AllowExecutionFromAPIGateway"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.lambda-db-modifyimage.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_api_gateway_rest_api.image-manager-api-gw.execution_arn}/*"
+}
+resource "aws_lambda_permission" "allow-api-lambda-deleteimage" {
+  statement_id  = "AllowExecutionFromAPIGateway"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.lambda-db-deleteimage.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_api_gateway_rest_api.image-manager-api-gw.execution_arn}/*"
+}
