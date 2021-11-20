@@ -1,21 +1,15 @@
 ###REGISTER
 
-resource "aws_api_gateway_resource" "register-image" {
-  rest_api_id = aws_api_gateway_rest_api.image-manager-api-gw.id
-  parent_id   = aws_api_gateway_resource.images.id
-  path_part   = "register"
-}
-
 resource "aws_api_gateway_method" "register-image" {
   rest_api_id   = aws_api_gateway_rest_api.image-manager-api-gw.id
-  resource_id   = aws_api_gateway_resource.register-image.id
+  resource_id   = aws_api_gateway_resource.images.id
   http_method   = "POST"
   authorization = "NONE"
 }
 
 resource "aws_api_gateway_integration" "integration-register-image" {
   rest_api_id             = aws_api_gateway_rest_api.image-manager-api-gw.id
-  resource_id             = aws_api_gateway_resource.register-image.id
+  resource_id             = aws_api_gateway_resource.images.id
   http_method             = aws_api_gateway_method.register-image.http_method
   integration_http_method = "POST"
   type                    = "AWS"
@@ -24,14 +18,14 @@ resource "aws_api_gateway_integration" "integration-register-image" {
 
 resource "aws_api_gateway_method_response" "response_200-register-image" {
   rest_api_id = aws_api_gateway_rest_api.image-manager-api-gw.id
-  resource_id = aws_api_gateway_resource.register-image.id
+  resource_id = aws_api_gateway_resource.images.id
   http_method = aws_api_gateway_method.register-image.http_method
   status_code = "200"
 }
 
 resource "aws_api_gateway_integration_response" "register-image-integration-response" {
   rest_api_id = aws_api_gateway_rest_api.image-manager-api-gw.id
-  resource_id = aws_api_gateway_resource.register-image.id
+  resource_id = aws_api_gateway_resource.images.id
   http_method = aws_api_gateway_method.register-image.http_method
   status_code = aws_api_gateway_method_response.response_200-register-image.status_code
 
@@ -40,22 +34,17 @@ resource "aws_api_gateway_integration_response" "register-image-integration-resp
 
 
 ###MODIFY
-resource "aws_api_gateway_resource" "modify-image" {
-  rest_api_id = aws_api_gateway_rest_api.image-manager-api-gw.id
-  parent_id   = aws_api_gateway_resource.images.id
-  path_part   = "modify"
-}
 
 resource "aws_api_gateway_method" "modify-image" {
   rest_api_id   = aws_api_gateway_rest_api.image-manager-api-gw.id
-  resource_id   = aws_api_gateway_resource.modify-image.id
-  http_method   = "POST"
+  resource_id   = aws_api_gateway_resource.images.id
+  http_method   = "PUT"
   authorization = "NONE"
 }
 
 resource "aws_api_gateway_integration" "integration-modify-image" {
   rest_api_id             = aws_api_gateway_rest_api.image-manager-api-gw.id
-  resource_id             = aws_api_gateway_resource.modify-image.id
+  resource_id             = aws_api_gateway_resource.images.id
   http_method             = aws_api_gateway_method.modify-image.http_method
   integration_http_method = "POST"
   type                    = "AWS"
@@ -64,14 +53,14 @@ resource "aws_api_gateway_integration" "integration-modify-image" {
 
 resource "aws_api_gateway_method_response" "response_200-modify-image" {
   rest_api_id = aws_api_gateway_rest_api.image-manager-api-gw.id
-  resource_id = aws_api_gateway_resource.modify-image.id
+  resource_id = aws_api_gateway_resource.images.id
   http_method = aws_api_gateway_method.modify-image.http_method
   status_code = "200"
 }
 
 resource "aws_api_gateway_integration_response" "modify-image-integration-response" {
   rest_api_id = aws_api_gateway_rest_api.image-manager-api-gw.id
-  resource_id = aws_api_gateway_resource.modify-image.id
+  resource_id = aws_api_gateway_resource.images.id
   http_method = aws_api_gateway_method.modify-image.http_method
   status_code = aws_api_gateway_method_response.response_200-modify-image.status_code
 
@@ -79,22 +68,17 @@ resource "aws_api_gateway_integration_response" "modify-image-integration-respon
 }
 
 ###DELETE
-resource "aws_api_gateway_resource" "delete-image" {
-  rest_api_id = aws_api_gateway_rest_api.image-manager-api-gw.id
-  parent_id   = aws_api_gateway_resource.images.id
-  path_part   = "delete"
-}
 
 resource "aws_api_gateway_method" "delete-image" {
   rest_api_id   = aws_api_gateway_rest_api.image-manager-api-gw.id
-  resource_id   = aws_api_gateway_resource.delete-image.id
-  http_method   = "POST"
+  resource_id   = aws_api_gateway_resource.images.id
+  http_method   = "DELETE"
   authorization = "NONE"
 }
 
 resource "aws_api_gateway_integration" "integration-delete-image" {
   rest_api_id             = aws_api_gateway_rest_api.image-manager-api-gw.id
-  resource_id             = aws_api_gateway_resource.delete-image.id
+  resource_id             = aws_api_gateway_resource.images.id
   http_method             = aws_api_gateway_method.delete-image.http_method
   integration_http_method = "POST"
   type                    = "AWS"
@@ -103,14 +87,14 @@ resource "aws_api_gateway_integration" "integration-delete-image" {
 
 resource "aws_api_gateway_method_response" "response_200-delete-image" {
   rest_api_id = aws_api_gateway_rest_api.image-manager-api-gw.id
-  resource_id = aws_api_gateway_resource.delete-image.id
+  resource_id = aws_api_gateway_resource.images.id
   http_method = aws_api_gateway_method.delete-image.http_method
   status_code = "200"
 }
 
 resource "aws_api_gateway_integration_response" "delete-image-integration-response" {
   rest_api_id = aws_api_gateway_rest_api.image-manager-api-gw.id
-  resource_id = aws_api_gateway_resource.delete-image.id
+  resource_id = aws_api_gateway_resource.images.id
   http_method = aws_api_gateway_method.delete-image.http_method
   status_code = aws_api_gateway_method_response.response_200-delete-image.status_code
 
