@@ -49,6 +49,16 @@ resource "aws_iam_policy" "lambda-image-policy" {
         {
         "Effect" : "Allow",
             "Action" : [
+                "s3:*"
+            ],
+            "Resource" : [
+               "${aws_s3_bucket.images-bucket.arn}",
+               "${aws_s3_bucket.images-bucket.arn}/*"
+            ]
+        },
+        {
+        "Effect" : "Allow",
+            "Action" : [
                 "kms:Decrypt"
                 ],
             "Resource" : [

@@ -52,6 +52,7 @@ resource "aws_lambda_function" "lambda-db-registerimage" {
   environment {
     variables = {
       TABLE_NAME = aws_dynamodb_table.images-table.name
+      BUCKET_S3 = aws_s3_bucket.images-bucket.bucket
     }
   }
 }
@@ -68,6 +69,7 @@ resource "aws_lambda_function" "lambda-db-modifyimage" {
   environment {
     variables = {
       TABLE_NAME = aws_dynamodb_table.images-table.name
+      BUCKET_S3 = aws_s3_bucket.images-bucket.bucket
     }
   }
 }
@@ -84,6 +86,7 @@ resource "aws_lambda_function" "lambda-db-deleteimage" {
   environment {
     variables = {
       TABLE_NAME = aws_dynamodb_table.images-table.name
+      BUCKET_S3 = aws_s3_bucket.images-bucket.bucket
     }
   }
 }

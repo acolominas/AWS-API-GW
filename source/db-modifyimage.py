@@ -10,7 +10,6 @@ dynamodb = boto3.resource('dynamodb')
 
 def lambda_handler(event, context):
     image = event['image']
-    print(image)
     table_name = os.environ['TABLE_NAME']
     table = dynamodb.Table(table_name)
 
@@ -20,7 +19,7 @@ def lambda_handler(event, context):
 
     response = {
       'statusCode': 200,
-      'body': json.dumps("Image register"),
+      'body': json.dumps(response),
       'headers': {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*'
