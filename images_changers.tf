@@ -4,7 +4,8 @@ resource "aws_api_gateway_method" "register-image" {
   rest_api_id   = aws_api_gateway_rest_api.image-manager-api-gw.id
   resource_id   = aws_api_gateway_resource.images.id
   http_method   = "POST"
-  authorization = "NONE"
+  authorization = "COGNITO_USER_POOLS"
+  authorizer_id = aws_api_gateway_authorizer.api-authorizer-cognito.id
 }
 
 resource "aws_api_gateway_integration" "integration-register-image" {
@@ -39,7 +40,8 @@ resource "aws_api_gateway_method" "modify-image" {
   rest_api_id   = aws_api_gateway_rest_api.image-manager-api-gw.id
   resource_id   = aws_api_gateway_resource.images.id
   http_method   = "PUT"
-  authorization = "NONE"
+  authorization = "COGNITO_USER_POOLS"
+  authorizer_id = aws_api_gateway_authorizer.api-authorizer-cognito.id
 }
 
 resource "aws_api_gateway_integration" "integration-modify-image" {
@@ -73,7 +75,8 @@ resource "aws_api_gateway_method" "delete-image" {
   rest_api_id   = aws_api_gateway_rest_api.image-manager-api-gw.id
   resource_id   = aws_api_gateway_resource.images.id
   http_method   = "DELETE"
-  authorization = "NONE"
+  authorization = "COGNITO_USER_POOLS"
+  authorizer_id = aws_api_gateway_authorizer.api-authorizer-cognito.id
 }
 
 resource "aws_api_gateway_integration" "integration-delete-image" {

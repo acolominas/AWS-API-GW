@@ -28,16 +28,10 @@ data "archive_file" "lambda-search-by" {
   output_path = "${path.module}/files/db-searchimageby.zip"
 }
 
-data "archive_file" "lambda-create-user" {
-  type        = "zip"
-  source_file = "${path.module}/source/db-createuser.py"
-  output_path = "${path.module}/files/db-createuser.zip"
-}
-
 data "archive_file" "lambda-login" {
   type        = "zip"
-  source_file = "${path.module}/source/cognito-login.py"
-  output_path = "${path.module}/files/cognito-login.zip"
+  source_file = "${path.module}/source/auth-login.py"
+  output_path = "${path.module}/files/auth-login.zip"
 }
 
 resource "aws_lambda_function" "lambda-db-registerimage" {
@@ -123,23 +117,13 @@ resource "aws_lambda_function" "lambda-db-searchimageby" {
   }
 }
 
-resource "aws_lambda_function" "lambda-db-createuser" {
-  function_name = "lambda-db-createuser"
-  description   = "A function to insert a new user to Database"
-  handler       = "db-createuser.lambda_handler"
-  runtime       = "python3.9"
-
-  filename = "${path.module}/files/db-createuser.zip"
-  role     = aws_iam_role.lambda-image-role.arn
-}
-
-resource "aws_lambda_function" "lambda-cognito-login" {
-  function_name = "lambda-cognito-login"
+resource "aws_lambda_function" "lambda-auth-login" {
+  function_name = "lambda-auth-login"
   description   = "A function to check user and password"
-  handler       = "cognito-login.lambda_handler"
+  handler       = "auth-login.lambda_handler"
   runtime       = "python3.9"
 
-  filename = "${path.module}/files/cognito-login.zip"
+  filename = "${path.module}/files/auth-login.zip"
   role     = aws_iam_role.lambda-image-role.arn
 
   environment {

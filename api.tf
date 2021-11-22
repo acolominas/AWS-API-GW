@@ -27,10 +27,10 @@ resource "aws_api_gateway_resource" "images" {
   path_part   = "images"
 }
 
-resource "aws_api_gateway_resource" "users" {
+resource "aws_api_gateway_resource" "oauth" {
   rest_api_id = aws_api_gateway_rest_api.image-manager-api-gw.id
   parent_id   = aws_api_gateway_rest_api.image-manager-api-gw.root_resource_id
-  path_part   = "users"
+  path_part   = "oauth"
 }
 
 
@@ -46,14 +46,6 @@ resource "aws_lambda_permission" "allow-api-lambda-search" {
   statement_id  = "AllowExecutionFromAPIGateway"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.lambda-db-searchimageby.function_name
-  principal     = "apigateway.amazonaws.com"
-  source_arn    = "${aws_api_gateway_rest_api.image-manager-api-gw.execution_arn}/*"
-}
-
-resource "aws_lambda_permission" "allow-api-lambda-createuser" {
-  statement_id  = "AllowExecutionFromAPIGateway"
-  action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.lambda-db-createuser.function_name
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_api_gateway_rest_api.image-manager-api-gw.execution_arn}/*"
 }
@@ -85,7 +77,14 @@ resource "aws_lambda_permission" "allow-api-lambda-deleteimage" {
 resource "aws_lambda_permission" "allow-api-lambda-login" {
   statement_id  = "AllowExecutionFromAPIGateway"
   action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.lambda-cognito-login.function_name
+  function_name = aws_lambda_function.lambda-auth-login.function_name
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_api_gateway_rest_api.image-manager-api-gw.execution_arn}/*"
+}
+
+resource "aws_api_gateway_authorizer" "api-authorizer-cognito" {
+  name                   = "api-authorizer-cognito"
+  type                   = "COGNITO_USER_POOLS"
+  rest_api_id            = aws_api_gateway_rest_api.image-manager-api-gw.id
+  provider_arns          = ["${aws_cognito_user_pool.users-image-pool.arn}"]
 }
