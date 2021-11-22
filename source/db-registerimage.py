@@ -15,7 +15,7 @@ def store_image_s3(image,identifier):
     extension = image['filename'].split('.')[1]
     new_filename = identifier + '.' + extension
     file_content = base64.b64decode(image['image_content'])
-    s3.put_object(Bucket=bucketS3, Key=new_filename, Body=file_content)
+    s3.put_object(Bucket=bucketS3, Key=new_filename, Body=file_content,ContentType='image/'+extension, ACL='public-read')
     return new_filename
 
 def generate_unique_id():

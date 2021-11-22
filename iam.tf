@@ -32,7 +32,6 @@ resource "aws_iam_policy" "lambda-image-policy" {
                 "dynamodb:*"
             ],
             "Resource": [
-                "${aws_dynamodb_table.users-table.arn}",
                 "${aws_dynamodb_table.images-table.arn}"
             ],
             "Effect": "Allow"
@@ -64,6 +63,15 @@ resource "aws_iam_policy" "lambda-image-policy" {
             "Resource" : [
               "*"
               ]
+        },
+        {
+        "Effect" : "Allow",
+            "Action" : [
+                "cognito-idp:AdminInitiateAuth"
+            ],
+            "Resource" : [
+              "${aws_cognito_user_pool.users-image-pool.arn}"
+            ]
         }
     ]
 }

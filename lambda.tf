@@ -36,8 +36,8 @@ data "archive_file" "lambda-create-user" {
 
 data "archive_file" "lambda-login" {
   type        = "zip"
-  source_file = "${path.module}/source/db-login.py"
-  output_path = "${path.module}/files/db-login.zip"
+  source_file = "${path.module}/source/cognito-login.py"
+  output_path = "${path.module}/files/cognito-login.zip"
 }
 
 resource "aws_lambda_function" "lambda-db-registerimage" {
@@ -131,26 +131,22 @@ resource "aws_lambda_function" "lambda-db-createuser" {
 
   filename = "${path.module}/files/db-createuser.zip"
   role     = aws_iam_role.lambda-image-role.arn
-
-  environment {
-    variables = {
-      TABLE_NAME = aws_dynamodb_table.users-table.name
-    }
-  }
 }
 
-resource "aws_lambda_function" "lambda-db-login" {
-  function_name = "lambda-db-login"
+resource "aws_lambda_function" "lambda-cognito-login" {
+  function_name = "lambda-cognito-login"
   description   = "A function to check user and password"
-  handler       = "db-login.lambda_handler"
+  handler       = "cognito-login.lambda_handler"
   runtime       = "python3.9"
 
-  filename = "${path.module}/files/db-login.zip"
+  filename = "${path.module}/files/cognito-login.zip"
   role     = aws_iam_role.lambda-image-role.arn
 
   environment {
     variables = {
-      TABLE_NAME = aws_dynamodb_table.users-table.name
+      USER_POOL_ID = aws_cognito_user_pool.users-image-pool.id,
+      CLIENT_ID    = aws_cognito_user_pool_client.image-manager-client.id,
+      CLIENT_SECRET = aws_cognito_user_pool_client.image-manager-client.client_secret
     }
   }
 }

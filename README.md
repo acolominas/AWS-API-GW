@@ -7,4 +7,4 @@ To add security to API, we will use Cognito service to authenticate & authorize.
 Physical images are stored in S3 Bucket and its metadata is stored in DynamoDB table.
 
 
-![Alt text](api-rest.drawio.png?raw=true "Title")
+![Alt text](readme_files/api-rest.drawio.png?raw=true "Title")
