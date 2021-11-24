@@ -40,38 +40,23 @@ def initiate_auth(username, password):
         return None, "Unknown error"
     return resp, None
 
-
-def refresh_auth(username, refresh_token):
-    try:
-        resp = client.admin_initiate_auth(
-            UserPoolId=USER_POOL_ID,
-            ClientId=CLIENT_ID,
-            AuthFlow='REFRESH_TOKEN_AUTH',
-            AuthParameters={
-                'REFRESH_TOKEN': refresh_token,
-                'SECRET_HASH': get_secret_hash(username)
-            },
-            ClientMetadata={            })
-    except client.exceptions.NotAuthorizedException as e:
-        return None, "The username or password is incorrect"
-    except client.exceptions.UserNotFoundException as e:
-        return None, "The username or password is incorrect"
-    except Exception as e:
-        print(e)
-        return None, "Unknown error"
-    return resp, None
-
 def lambda_handler(event, context):
     global client
     if client == None:
         client = boto3.client('cognito-idp')
 
-    username = event['username']
-    if 'password' in event:
-        resp, msg = initiate_auth(username, event['password'])
+    for field in ["username", "password"]:
+        if not event.get(field):
+            return {
+                'status': 'fail',
+                'msg': f"{field} is not present"
+            }
 
-    if 'refresh_token' in event:
-        resp, msg = refresh_auth(username, event['refresh_token'])
+    username = event['username']
+    password = event['password']
+
+    resp, msg = initiate_auth(username, password)
+
 
     if msg != None:
         return {
@@ -83,8 +68,5 @@ def lambda_handler(event, context):
         'status': 'success',
         'id_token': resp['AuthenticationResult']['IdToken']
     }
-
-    if 'password' in event:
-        response['refresh_token'] = resp['AuthenticationResult']['RefreshToken']
-
+        
     return response

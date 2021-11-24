@@ -13,7 +13,7 @@ table = dynamodb.Table(table_name)
 
 def delete_image_dynamodb(id):
     resp = table.delete_item( Key={ 'id': id } )
-    
+
 def delete_image_s3(id):
     image = table.scan(
         FilterExpression=Attr('id').eq(value)
@@ -22,6 +22,13 @@ def delete_image_s3(id):
     resp = s3.delete_object(Bucket=bucketS3, Key=filename)
 
 def lambda_handler(event, context):
+
+    if not event.get('id'):
+        return {
+            'status': 'fail',
+            'msg': "id is not present"
+        }
+
     id = event['id']
 
     resp, msg = delete_image_s3(id)

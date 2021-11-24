@@ -18,7 +18,6 @@ def get_secret_hash(username):
 
 def initiate_signup(username, password, email):
     try:
-
         resp = client.sign_up(
             ClientId=CLIENT_ID,
             SecretHash=get_secret_hash(username),
@@ -45,7 +44,6 @@ def initiate_signup(username, password, email):
 
 def initiate_confirmation(username):
     try:
-
         resp = client.admin_confirm_sign_up(
             UserPoolId=USER_POOL_ID,
             Username=username
@@ -53,9 +51,6 @@ def initiate_confirmation(username):
     except Exception as e:
         return None, str(e)
     return resp, None
-
-
-
 
 def lambda_handler(event, context):
     global client
