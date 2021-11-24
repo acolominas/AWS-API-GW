@@ -27,10 +27,10 @@ resource "aws_api_gateway_resource" "images" {
   path_part   = "images"
 }
 
-resource "aws_api_gateway_resource" "oauth" {
+resource "aws_api_gateway_resource" "users" {
   rest_api_id = aws_api_gateway_rest_api.image-manager-api-gw.id
   parent_id   = aws_api_gateway_rest_api.image-manager-api-gw.root_resource_id
-  path_part   = "oauth"
+  path_part   = "users"
 }
 
 
@@ -78,6 +78,14 @@ resource "aws_lambda_permission" "allow-api-lambda-login" {
   statement_id  = "AllowExecutionFromAPIGateway"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.lambda-auth-login.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_api_gateway_rest_api.image-manager-api-gw.execution_arn}/*"
+}
+
+resource "aws_lambda_permission" "allow-api-lambda-createuser" {
+  statement_id  = "AllowExecutionFromAPIGateway"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.lambda-auth-createuser.function_name
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_api_gateway_rest_api.image-manager-api-gw.execution_arn}/*"
 }

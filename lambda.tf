@@ -34,6 +34,12 @@ data "archive_file" "lambda-login" {
   output_path = "${path.module}/files/auth-login.zip"
 }
 
+data "archive_file" "lambda-createuser" {
+  type        = "zip"
+  source_file = "${path.module}/source/auth-createuser.py"
+  output_path = "${path.module}/files/auth-createuser.zip"
+}
+
 resource "aws_lambda_function" "lambda-db-registerimage" {
   function_name = "lambda-db-registerimage"
   description   = "A function to insert new image to Database"
@@ -124,6 +130,24 @@ resource "aws_lambda_function" "lambda-auth-login" {
   runtime       = "python3.9"
 
   filename = "${path.module}/files/auth-login.zip"
+  role     = aws_iam_role.lambda-image-role.arn
+
+  environment {
+    variables = {
+      USER_POOL_ID = aws_cognito_user_pool.users-image-pool.id,
+      CLIENT_ID    = aws_cognito_user_pool_client.image-manager-client.id,
+      CLIENT_SECRET = aws_cognito_user_pool_client.image-manager-client.client_secret
+    }
+  }
+}
+
+resource "aws_lambda_function" "lambda-auth-createuser" {
+  function_name = "lambda-auth-createuser"
+  description   = "A function to create new user in cognito pool"
+  handler       = "auth-createuser.lambda_handler"
+  runtime       = "python3.9"
+
+  filename = "${path.module}/files/auth-createuser.zip"
   role     = aws_iam_role.lambda-image-role.arn
 
   environment {

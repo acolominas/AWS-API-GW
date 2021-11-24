@@ -67,7 +67,8 @@ resource "aws_iam_policy" "lambda-image-policy" {
         {
         "Effect" : "Allow",
             "Action" : [
-                "cognito-idp:AdminInitiateAuth"
+                "cognito-idp:AdminInitiateAuth",
+                "cognito-idp:AdminConfirmSignUp" 
             ],
             "Resource" : [
               "${aws_cognito_user_pool.users-image-pool.arn}"
