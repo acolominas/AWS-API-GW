@@ -10,6 +10,7 @@ dynamodb = boto3.resource('dynamodb')
 s3 = boto3.client('s3')
 table_name = os.environ['TABLE_NAME']
 bucketS3 = os.environ['BUCKET_S3']
+region = os.environ['AWS_REGION']
 
 def generate_unique_id():
     now = datetime.now()
@@ -35,10 +36,10 @@ def store_image_dynamodb(id,title,description,keywords,author,creator,capture_da
             'creator': creator,
             'capture_date': capture_date,
             'storage_date': storage_date,
-            'filename': filename
+            'filename': filename,
+            'object_url': f'https://{bucketS3}.s3.{region}.amazonaws.com/{filename}'
         }
     )
-
     return "OK", None
 
 def lambda_handler(event, context):
