@@ -8,7 +8,7 @@ resource "aws_api_gateway_rest_api" "image-manager-api-gw" {
 
   })
 
-  name = "image-manager-api"
+  name        = "image-manager-api"
   description = "API used for ImageManagement"
   endpoint_configuration {
     types = ["REGIONAL"]
@@ -91,8 +91,8 @@ resource "aws_lambda_permission" "allow-api-lambda-createuser" {
 }
 
 resource "aws_api_gateway_authorizer" "api-authorizer-cognito" {
-  name                   = "api-authorizer-cognito"
-  type                   = "COGNITO_USER_POOLS"
-  rest_api_id            = aws_api_gateway_rest_api.image-manager-api-gw.id
-  provider_arns          = ["${aws_cognito_user_pool.users-image-pool.arn}"]
+  name          = "api-authorizer-cognito"
+  type          = "COGNITO_USER_POOLS"
+  rest_api_id   = aws_api_gateway_rest_api.image-manager-api-gw.id
+  provider_arns = ["${aws_cognito_user_pool.users-image-pool.arn}"]
 }

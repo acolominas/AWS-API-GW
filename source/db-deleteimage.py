@@ -10,7 +10,6 @@ table_name = os.environ['TABLE_NAME']
 bucketS3 = os.environ['BUCKET_S3']
 table = dynamodb.Table(table_name)
 
-
 def delete_image_dynamodb(id):
     try:
         resp = table.delete_item( Key={ 'id': id } )

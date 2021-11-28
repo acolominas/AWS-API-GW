@@ -6,21 +6,21 @@ resource "aws_cognito_user_pool_domain" "users-image-domain" {
 resource "aws_cognito_user_pool" "users-image-pool" {
   name = "users-image-pool"
 
-  alias_attributes         = ["email"]
+  alias_attributes = ["email"]
 }
 
 resource "aws_cognito_user_pool_client" "image-manager-client" {
-    name = "image-manager-client"
-    user_pool_id = aws_cognito_user_pool.users-image-pool.id
-    explicit_auth_flows = ["ADMIN_NO_SRP_AUTH"]
+  name                = "image-manager-client"
+  user_pool_id        = aws_cognito_user_pool.users-image-pool.id
+  explicit_auth_flows = ["ADMIN_NO_SRP_AUTH"]
 
-    allowed_oauth_flows  = ["code","implicit"]
-    allowed_oauth_flows_user_pool_client = true
-    allowed_oauth_scopes = ["openid","phone", "email","profile","aws.cognito.signin.user.admin"]
-    supported_identity_providers         = ["COGNITO"]
+  allowed_oauth_flows                  = ["code", "implicit"]
+  allowed_oauth_flows_user_pool_client = true
+  allowed_oauth_scopes                 = ["openid", "phone", "email", "profile", "aws.cognito.signin.user.admin"]
+  supported_identity_providers         = ["COGNITO"]
 
-    generate_secret     = true
-    callback_urls = ["http://localhost:3000/"]
+  generate_secret = true
+  callback_urls   = ["http://localhost:3000/"]
 
 }
 
