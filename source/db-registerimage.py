@@ -11,6 +11,7 @@ s3 = boto3.client('s3')
 table_name = os.environ['TABLE_NAME']
 bucketS3 = os.environ['BUCKET_S3']
 region = os.environ['AWS_REGION']
+cloudfront_domain = os.environ['CLOUD_FR_DOMAIN']
 
 def generate_unique_id():
     now = datetime.now()
@@ -37,7 +38,7 @@ def store_image_dynamodb(id,title,description,keywords,author,creator,capture_da
             'capture_date': capture_date,
             'storage_date': storage_date,
             'filename': filename,
-            'object_url': f'https://{bucketS3}.s3.{region}.amazonaws.com/{filename}'
+            'object_url': f'https://{cloudfront_domain}/{filename}'
         }
     )
     return "OK", None

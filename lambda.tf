@@ -53,6 +53,7 @@ resource "aws_lambda_function" "lambda-db-registerimage" {
     variables = {
       TABLE_NAME = aws_dynamodb_table.images-table.name
       BUCKET_S3  = aws_s3_bucket.images-bucket.bucket
+      CLOUD_FR_DOMAIN = aws_cloudfront_distribution.s3_distribution.domain_name
     }
   }
 }
@@ -70,6 +71,7 @@ resource "aws_lambda_function" "lambda-db-modifyimage" {
     variables = {
       TABLE_NAME = aws_dynamodb_table.images-table.name
       BUCKET_S3  = aws_s3_bucket.images-bucket.bucket
+      CLOUD_FR_DOMAIN = aws_cloudfront_distribution.s3_distribution.domain_name 
     }
   }
 }

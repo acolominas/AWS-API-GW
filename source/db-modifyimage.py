@@ -7,6 +7,8 @@ from boto3.dynamodb.conditions import Attr
 
 dynamodb = boto3.resource('dynamodb')
 
+cloudfront_domain = os.environ['CLOUD_FR_DOMAIN']
+
 def store_image_s3(image,identifier):
     extension = image['filename'].split('.')[1]
     new_filename = identifier + '.' + extension
@@ -33,7 +35,8 @@ def store_image_dynamodb(id,title,description,keywords,author,creator,capture_da
             'creator': creator,
             'capture_date': capture_date,
             'storage_date': storage_date,
-            'filename': filename
+            'filename': filename,
+            'object_url': f'https://{cloudfront_domain}/{filename}'
         }
     )
 

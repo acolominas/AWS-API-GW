@@ -18,7 +18,7 @@ Physical images are stored in S3 Bucket and its metadata is stored in a DynamoDB
 * DynamoDB
 * Cognito
 * IAM
+* CloudFront
 
 ### TODO
 * Federate authentication with other identity providers like Facebook,Google...
-* Use CloudFront with S3 bucket
