@@ -2,7 +2,7 @@
 
 Serverless API REST builded with API Gateway Service to store images to s3 and manage it.
 
-![Alt text](readme_files/api-rest.drawio.png?raw=true "Title")
+![Alt text](readme_files/api-rest.drawio.jpg?raw=true "Title")
 
 To add security to API, we will use Cognito service to authenticate & authorize the access to the API methods using OAuth 2 protocol.
 
