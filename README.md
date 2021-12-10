@@ -1,24 +1,24 @@
-# api-rest-aws
+# api-rest-aws-testing
 
-Serverless API REST built with API Gateway Service to store images to s3 and manage it.
+Serverless API REST built with API Gateway Service to store images and manage it.
 
 ![Alt text](readme_files/api-rest.drawio.jpg?raw=true "Title")
 
-To add security to API, we will use Cognito service to authenticate & authorize the access to the API methods using OAuth 2 protocol.
+To add security to the API, we will use the Cognito service to authenticate and authorize access to the API methods using the OAuth 2 protocol.
 
-All API methods are developed in Python using lambdas.
+All API methods have been developed in Python using AWS Lambdas.
 
-Physical images are stored in S3 Bucket and its metadata is stored in a DynamoDB table. The images stored are public and publicated through Cloudfront.
+Physical images are stored in S3 and their metadata is stored in a DynamoDB table. The stored images are published through Cloudfront.
 
 ### AWS Services Involved
 
-* API Gateway
-* Lambda
-* S3
-* DynamoDB
-* Cognito
-* IAM
-* CloudFront
+* Amazon API Gateway
+* AWS Lambda
+* Amazon S3
+* Amazon DynamoDB
+* Amazon Cognito
+* AWS IAM
+* Amazon CloudFront
 
 ### TODO
 * Federate authentication with other identity providers like Facebook,Google...
